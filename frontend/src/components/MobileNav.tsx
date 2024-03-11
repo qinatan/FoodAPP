@@ -9,8 +9,6 @@ import { redirect } from "react-router-dom";
 const MobileNav = () => {
    const{isAuthenticated, loginWithRedirect, user} = useAuth0(); 
 
-  
-  
     return(
     <Sheet>
         <SheetTrigger>

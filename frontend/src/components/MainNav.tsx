@@ -4,13 +4,11 @@ import UsernameMenu from "./UsernameMenu";
 
 const MainNav = () => {
   const{loginWithRedirect, isAuthenticated} = useAuth0();
-  
   return(
     <div className="self-right">
       <span>
       {isAuthenticated? 
-      
-      (<UsernameMenu/>):  
+      (<UsernameMenu/>):   
       
       (<Button variant="ghost" className=" font-bold hover:text-orange-500 hover:bg-white "
         onClick={async()=>await loginWithRedirect()}>
