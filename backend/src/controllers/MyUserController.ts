@@ -7,9 +7,8 @@ const createCurrentUser = async(req: Request, res: Response)=>{
     //2. create the user if it does not exist
     //3. return the user object to the calling client(front end)
     try{
-        const {auth0Id} = req.body;        
+       const {auth0Id} = req.body; 
         //User is the mongoDB model
-
         const existingUser = await User.findOne({auth0Id})
         if (existingUser){
             return res.status(200).send();
@@ -18,7 +17,6 @@ const createCurrentUser = async(req: Request, res: Response)=>{
         //newUser is a instance of User model
         const newUser = new User(req.body);
         await newUser.save(); 
-        
         res.status(201).json(newUser.toObject()); 
     } catch(error){
         console.error("Error creating user:", error);
@@ -50,12 +48,11 @@ const updateCurrentUser = async(req: Request, res: Response)=>{
 const getCurrentUser = async(req: Request, res: Response)=>{
     try{
         const currentUser = await User.findOne({_id: req.userId})
-        console.log(currentUser)
         if(!currentUser){
             return res.status(404).json({message: "User not found"}); 
         }    
+        
         return res.json(currentUser); 
-    
     }catch(error){
         console.error(error); 
         return res.status(500).json({message: "Error getting user"})

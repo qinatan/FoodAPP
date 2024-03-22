@@ -1,6 +1,7 @@
-import { User, useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
+import {User} from "@/types";
 
 //configure the base URL for API request 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; 
@@ -12,7 +13,6 @@ type CreateUserRequest = {
 }
 export const useCreateMyUser =() =>{
      const {getAccessTokenSilently} = useAuth0(); 
-    
     // asyn - keyword used to define an asynchronous function that perform operation in the back
     // user is the paramter, CreateUserRequest is the type that user should adhere to  
     const createMyUserRequest = async(user: CreateUserRequest) => {
@@ -50,22 +50,19 @@ type updateMyUserRequest ={
 };
 
 export const useUpdateMyUser =() =>{
-    
     const {getAccessTokenSilently, } = useAuth0(); 
     const updateMyUserRequest = async (formData: updateMyUserRequest) =>{
         const accessToken = await getAccessTokenSilently();   
-
-        const response = await fetch(`${API_BASE_URL}/api/my/user`, {
-            method: "PUT",
-            headers: {
-                Authorization: `Bearer ${accessToken}`, 
-                "Content-Type": "application/json", 
-            },
-            body: JSON.stringify(formData), // request body contains formData 
-        })
-        
-        console.log({response})
-
+        const response = await fetch(
+            `${API_BASE_URL}/api/my/user`,
+            {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${accessToken}`, 
+                    "Content-Type": "application/json", 
+                },
+                body: JSON.stringify(formData), // request body contains formData 
+            })
         if (!response.ok){
             throw new Error ("Failed to update user"); 
         }
@@ -77,7 +74,6 @@ export const useUpdateMyUser =() =>{
     if (isSuccess){
         toast.success("User profile updated!"); 
     }
-    
     if (error){
         toast.error(error.toString());
         reset(); 
@@ -86,9 +82,7 @@ export const useUpdateMyUser =() =>{
 }
 
 export const useGetMyUser =() =>{
-        
     const{getAccessTokenSilently} = useAuth0(); 
-    
     const getMyUserRequest = async(): Promise<User>=>{
         const accessToken = await getAccessTokenSilently(); 
         const response = await fetch(`${API_BASE_URL}/api/my/user`, {
